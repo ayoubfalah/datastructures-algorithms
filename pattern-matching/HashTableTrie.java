@@ -27,11 +27,6 @@ public class HashTableTrie {
     {
         List<Map<Character, Integer>> adj = new ArrayList();
         
-        if (patterns.length == 0)
-        {
-            return adj;
-        }
-        
         Map<Character, Integer> root = new HashMap<>();
         char currentSymbol = patterns[0].charAt(0);
         int newNodeIndex = 0;
