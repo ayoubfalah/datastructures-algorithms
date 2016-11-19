@@ -1,34 +1,10 @@
 import java.io.*;
 import java.util.*;
-
-class Node
-{
-	public static final int Letters =  4;
-	public static final int NA      = -1;
-	public int next [];
-
-	Node ()
-	{
-		next = new int [Letters];
-		Arrays.fill (next, NA);
-	}
-}
+import pattern_matching.HashTableTrie;
 
 public class TrieMatching implements Runnable 
 {
-	int letterToIndex (char letter)
-	{
-		switch (letter)
-		{
-			case 'A': return 0;
-			case 'C': return 1;
-			case 'G': return 2;
-			case 'T': return 3;
-			default: assert (false); return Node.NA;
-		}
-	}
-
-        /**
+	/**
          * 
          * @param text a reference Text
          * @param n The number of elements in patterns
@@ -45,12 +21,15 @@ public class TrieMatching implements Runnable
          * @return All valid shifts with which a pattern in patterns occurs in 
          *         text
          */
-	List <Integer> solve (String text, int n, List <String> patterns) {
-		List <Integer> result = new ArrayList();
+	List <Integer> solve (String text, int n, List <String> patterns) 
+        {
+            
+            List<Map<Character, Integer>> trie = (new HashTableTrie()).
+                    buildTrie(patterns.toArray(new String[patterns.size()]));
+            
+            List <Integer> result = trieMatching(text, trie);
 
-		// write your code here
-
-		return result;
+            return result;
 	}
 
 	public void run () {
@@ -58,7 +37,7 @@ public class TrieMatching implements Runnable
 			BufferedReader in = new BufferedReader (new InputStreamReader (System.in));
 			String text = in.readLine ();
 		 	int n = Integer.parseInt (in.readLine ());
-		 	List <String> patterns = new ArrayList <String> ();
+		 	List <String> patterns = new ArrayList();
 			for (int i = 0; i < n; i++) {
 				patterns.add (in.readLine ());
 			}
@@ -79,4 +58,55 @@ public class TrieMatching implements Runnable
 	public static void main (String [] args) {
 		new Thread (new TrieMatching ()).start ();
 	}
+
+    private List<Integer> trieMatching(String text, List<Map<Character, Integer>> trie)
+    {
+        int txtlength = text.length();
+        List <Integer> result = new ArrayList();
+        while (!(text.isEmpty()))
+        {
+            int subResult = prefixTrieMatching(text, trie);
+            if (subResult >= 0) 
+            {
+                result.add(txtlength - subResult);                
+            }
+            text = text.substring(1);
+        }
+        return result;
+    }
+
+    private int prefixTrieMatching(String text, List<Map<Character, Integer>> trie)
+    {
+            int currentTextSymbolIndex = 0;
+            char currentSymbol = text.charAt(currentTextSymbolIndex);
+            Map<Character, Integer> currentNode = trie.get(0);
+            while (true)
+            {
+                // The currentNode is a leaf in trie
+                if (currentNode.size() == 0)
+                {
+                    return text.length();
+                }
+                else if (currentNode.containsKey(currentSymbol)) 
+                {
+                    Integer currentNodeIndex = currentNode.get(currentSymbol);
+                    currentNode = trie.get(currentNodeIndex);
+                    if (currentNode.size() == 0)
+                    {
+                        return text.length();
+                    }
+                    if (++currentTextSymbolIndex < text.length())
+                        currentSymbol = text.charAt(currentTextSymbolIndex);
+                    else
+                    {
+                        // The length of pattern is larger than the length of
+                        // the text
+                        return -1;
+                    }
+                    
+                }
+                else return -1;
+            
+            }
+    }
 }

@@ -1,3 +1,5 @@
+package pattern_matching;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,7 +25,7 @@ public class HashTableTrie {
         }
     }
 
-    List<Map<Character, Integer>> buildTrie(String[] patterns) 
+    public List<Map<Character, Integer>> buildTrie(String[] patterns) 
     {
         List<Map<Character, Integer>> adj = new ArrayList();
         
