@@ -4,6 +4,9 @@ import pattern_matching.HashTableTrie;
 
 public class TrieMatching implements Runnable 
 {
+    private static int INVALID_SHIFT       = -1;
+    private static int SUBTEXT_BEGIN_INDEX = 1;
+    
 	/**
          * 
          * @param text a reference Text
@@ -61,52 +64,66 @@ public class TrieMatching implements Runnable
 
     private List<Integer> trieMatching(String text, List<Map<Character, Integer>> trie)
     {
-        int txtlength = text.length();
+        int wholeTextlength = text.length();
         List <Integer> result = new ArrayList();
         while (!(text.isEmpty()))
         {
             int subResult = prefixTrieMatching(text, trie);
-            if (subResult >= 0) 
+            boolean isValidShift = subResult >= 0; 
+            if (isValidShift) 
             {
-                result.add(txtlength - subResult);                
+                int validShift = wholeTextlength - subResult;                
+                result.add(validShift);                
             }
-            text = text.substring(1);
+            text = removeFirstSymbol(text);
         }
         return result;
     }
 
+    private String removeFirstSymbol(String text) 
+    {
+        text = text.substring(SUBTEXT_BEGIN_INDEX);
+        return text;
+    }
+
     private int prefixTrieMatching(String text, List<Map<Character, Integer>> trie)
     {
-            int currentTextSymbolIndex = 0;
-            char currentSymbol = text.charAt(currentTextSymbolIndex);
-            Map<Character, Integer> currentNode = trie.get(0);
-            while (true)
+        int currentTextSymbolIndex = 0;
+        char currentSymbol = text.charAt(currentTextSymbolIndex);
+        int rootIndex = 0;
+        Map<Character, Integer> currentNode = trie.get(rootIndex);
+
+        while (true)
+        {
+            // The currentNode is a leaf in trie
+            boolean isCurrentNodeALeaf = currentNode.isEmpty();
+            // Is there an edge in trie labeled by current symbol
+            boolean edgeWithCurrentSymbol = currentNode.containsKey(currentSymbol);
+            if (isCurrentNodeALeaf)
             {
-                // The currentNode is a leaf in trie
-                if (currentNode.size() == 0)
+                return text.length();
+            }
+            else if (edgeWithCurrentSymbol) 
+            {
+                Integer currentNodeIndex = currentNode.get(currentSymbol);
+                currentNode = trie.get(currentNodeIndex);
+                isCurrentNodeALeaf = currentNode.isEmpty();
+                if (isCurrentNodeALeaf)
                 {
                     return text.length();
                 }
-                else if (currentNode.containsKey(currentSymbol)) 
+                ++currentTextSymbolIndex;
+                boolean hasNextLetter = currentTextSymbolIndex < text.length();
+                if (hasNextLetter)
+                    currentSymbol = text.charAt(currentTextSymbolIndex);
+                else
                 {
-                    Integer currentNodeIndex = currentNode.get(currentSymbol);
-                    currentNode = trie.get(currentNodeIndex);
-                    if (currentNode.size() == 0)
-                    {
-                        return text.length();
-                    }
-                    if (++currentTextSymbolIndex < text.length())
-                        currentSymbol = text.charAt(currentTextSymbolIndex);
-                    else
-                    {
-                        // The length of pattern is larger than the length of
-                        // the text
-                        return -1;
-                    }
-                    
-                }
-                else return -1;
-            
+                    // The length of pattern is larger than the length of
+                    // the text
+                    return INVALID_SHIFT;
+                }                    
             }
+            else return INVALID_SHIFT;            
+        }
     }
 }
