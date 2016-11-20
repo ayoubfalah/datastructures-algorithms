@@ -1,3 +1,5 @@
+package pattern_matching;
+
 import java.io.*;
 import java.util.*;
 
@@ -5,7 +7,7 @@ class TrieMatchingExtended implements Runnable
 {
     private static final int  INVALID_SHIFT       = -1;
     private static final int  SUBTEXT_BEGIN_INDEX = 1;
-    private static final char WORD_END_INDICATOR  = '$';
+    private static final char PATTERN_END_INDICATOR  = '$';
     
     /**
      * 
@@ -24,11 +26,8 @@ class TrieMatchingExtended implements Runnable
     List <Integer> solve (String text, int n, List <String> patterns) 
     {
 
-//        List<Map<Character, Integer>> trie = (new HashTableTrie()).
-//                buildTrie(patterns.toArray(new String[patterns.size()]));
-        
-        List<Map<Character, Integer>> trie = buildTrie(patterns
-                .toArray(new String[patterns.size()]));
+        List<Map<Character, Integer>> trie = (new HashTableTrie()).
+                buildTrie(patterns.toArray(new String[patterns.size()]));
 
         List <Integer> result = trieMatching(text, trie);
 
@@ -43,7 +42,7 @@ class TrieMatchingExtended implements Runnable
                 int n = Integer.parseInt (in.readLine ());
                 List <String> patterns = new ArrayList();
                 for (int i = 0; i < n; i++) {
-                    String pattern = in.readLine () + WORD_END_INDICATOR;
+                    String pattern = in.readLine () + PATTERN_END_INDICATOR;
                     patterns.add (pattern);
                 }
 
@@ -62,41 +61,6 @@ class TrieMatchingExtended implements Runnable
 
     public static void main (String [] args) {
             new Thread (new TrieMatchingExtended()).start ();
-    }
-    
-    public List<Map<Character, Integer>> buildTrie(String[] patterns) 
-    {
-        List<Map<Character, Integer>> adj = new ArrayList();
-        
-        Map<Character, Integer> root = new HashMap<>();
-        char currentSymbol = patterns[0].charAt(0);
-        int newNodeIndex = 0;
-        root.put(currentSymbol, ++newNodeIndex);
-        adj.add(root);
-        adj.add(new HashMap<>());
-        
-        for (String pattern : patterns) 
-        {
-            int currentNodeIndex = 0;
-            Map<Character, Integer> currentNode = adj.get(currentNodeIndex);
-            for (int i = 0; i < pattern.length(); i++) 
-            {
-                currentSymbol = pattern.charAt(i);
-                if (currentNode.containsKey(currentSymbol)) 
-                {
-                    currentNodeIndex = currentNode.get(currentSymbol);
-                    currentNode = adj.get(currentNodeIndex);
-                }else
-                {
-                    Map newNode = currentNode;
-                    newNode.put(currentSymbol, ++newNodeIndex);
-                    adj.add(new HashMap<>());
-                    currentNode = adj.get(newNodeIndex);
-                }            
-            }            
-        }
-
-        return adj;
     }
 
     private List<Integer> trieMatching(String text, List<Map<Character, Integer>> trie)
@@ -134,7 +98,7 @@ class TrieMatchingExtended implements Runnable
         {
             // The currentNode is a leaf in trie
             boolean isCurrentNodeALeaf = currentNode.isEmpty();
-            boolean patternEnd = currentNode.containsKey(WORD_END_INDICATOR);
+            boolean patternEnd = currentNode.containsKey(PATTERN_END_INDICATOR);
             // Is there an edge in trie labeled by current symbol
             boolean edgeWithCurrentSymbol = currentNode.containsKey(currentSymbol);
             if (isCurrentNodeALeaf || patternEnd)
@@ -146,7 +110,7 @@ class TrieMatchingExtended implements Runnable
                 Integer currentNodeIndex = currentNode.get(currentSymbol);
                 currentNode = trie.get(currentNodeIndex);
                 isCurrentNodeALeaf = currentNode.isEmpty();
-                patternEnd = currentNode.containsKey(WORD_END_INDICATOR);
+                patternEnd = currentNode.containsKey(PATTERN_END_INDICATOR);
                 if (isCurrentNodeALeaf || patternEnd)
                 {
                     return text.length();
