@@ -15,7 +15,7 @@ public class BFS
      * @param t a vertex in V
      * @preconstraint 2 <= n <= 10^5
      *                0 <= m <= 10^5
-     *               for each (s,t) in {1, 2, ..., n}x{1, 2, ..., n}: u != v
+     *               for each (s,t) in {1, 2, ..., n}x{1, 2, ..., n}: s != t
      * @return The length of the shortest path between s and t. That is, the
      *         minimum number of edges in a path from s to t. If t is not reachable
      *         from s then distance(ArrayList, int, int) returns -1
