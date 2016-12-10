@@ -37,7 +37,7 @@ public class SuffixArray {
         @Override
         public int compareTo(Suffix that)
         {
-            return suffix.compareTo(that.suffix);
+            return this.suffix.compareTo(that.suffix);
         }
     }
 
