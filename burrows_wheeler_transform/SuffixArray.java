@@ -1,4 +1,3 @@
-package burrows_wheeler_transform;
 
 import java.util.*;
 import java.io.*;
