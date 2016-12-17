@@ -3,8 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class InverseBWT {
-
+public class InverseBWT 
+{
     class FastScanner {
         StringTokenizer tok = new StringTokenizer("");
         BufferedReader in;
@@ -23,92 +23,47 @@ public class InverseBWT {
             return Integer.parseInt(next());
         }
     }
-
-    /**
-     * 
-     * @param bwt A Burrows-Wheeler Transfrom
-     * @precondition bwt is defined over the alphabet {A, C, G, T}
-     *               bwt contains exaclty one $ sign
-     *               1 <= |bwt| - |$| <= 10^6
-     * @return The invert of bwt
-     */
+    
     String inverseBWT(String bwt) 
-    {        
-        HashMap<Character, Integer> mem = occs(bwt);        
-        int[] ranks = count(bwt);
+    {
+        char[] chars = bwt.toCharArray();
+        int[] orders = sortCharacters(chars);
         
-        StringBuilder text = new StringBuilder("$");
-        int i = 0;
-        char currentSymbol = bwt.charAt(i);        
-        while (currentSymbol != '$')
+        StringBuilder text = new StringBuilder();
+        int i = orders[0]; // orders[0] denotes $
+        i = orders[i];        
+        while (i != orders[0])
         {
-            text = text.insert(0, currentSymbol);
-            i = Math.addExact(mem.get(currentSymbol), ranks[i]);
-            currentSymbol = bwt.charAt(i);
-        }        
+            text = text.append(chars[i]);
+            i = orders[i];
+        }
+        text.append(chars[i]);
         return text.toString();
     }
-
-    /**
-     * 
-     * @param bwt A Burrows-Wheeler Transform
-     * @return For any s in {A, C, G, T}: occs(bwt) computes the number of symbols
-     *         in bwt that are lexically smaller than s.
-     */
-    private HashMap<Character, Integer> occs(String bwt)
-    {
-        String firstColumn = sort(bwt);
-        HashMap<Character, Integer> mem = new HashMap();
-        mem.put('A', firstColumn.indexOf('A'));
-        mem.put('C', firstColumn.indexOf('C'));
-        mem.put('G', firstColumn.indexOf('G'));
-        mem.put('T', firstColumn.indexOf('T'));
-        return mem;
-    }
     
-    private String sort(String bwt) 
+    private int[] sortCharacters(char[] chars)
     {
-        char[] symbols = bwt.toCharArray();
-        Arrays.sort(symbols);        
-        return new String(symbols);
-    }
-    
-    /**
-     * 
-     * @param bwt
-     * @return The rank of symbol - 1. That is, let c := bwt[i], 
-     *         where i in {0, 1, ..., (|bwt| - 1)}, then count(bwt) computes
-     *         the number of occurrences of c in [0, i[
-     */
-    private int[] count(String bwt)
-    {
-        int aCounter = 0,
-            cCounter = 0,
-            gCounter = 0,
-            tCounter = 0;
-        int n = bwt.length();
-        int[] ranks = new int[n];        
+        // ∑ = {A, ..., T} U {$} => |∑| = 85
+        int AlphabetLength = 85;
+        int n = chars.length;
+        int[] orders = new int[n];
+        int[] count = new int[AlphabetLength];
+        
         for (int i = 0; i < n; i++)
         {
-            char currentSymbol = bwt.charAt(i);
-            switch(currentSymbol)
-            {
-                case 'A':
-                    ranks[i] = aCounter++;
-                    break;
-                case 'C':
-                    ranks[i] = cCounter++;
-                    break;
-                case 'G':
-                    ranks[i] = gCounter++;
-                    break;
-                case 'T':
-                    ranks[i] = tCounter++;
-                    break;
-                default: break;
-            }            
+            count[chars[i]] = count[chars[i]] + 1;            
         }
-        return ranks;
+        for (int j = 1; j < AlphabetLength; j++) 
+        {
+            count[j] = count[j] + count[j - 1];            
+        }
+        for (int k = n - 1; k >= 0 ; k--)
+        {
+            int c = chars[k];
+            count[c] = count[c] - 1;
+            orders[count[c]] = k;            
+        }
+        return orders;
     }
 
     static public void main(String[] args) throws IOException {
