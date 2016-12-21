@@ -1,3 +1,5 @@
+package knuth_morris_pratt;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

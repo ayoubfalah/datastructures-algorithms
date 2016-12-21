@@ -1,9 +1,9 @@
-package pattern_matching;
+package string_algo_datastructures.suffix_array;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+import knuth_morris_pratt.KnuthMorrisPratt;
 
 /**
  *
@@ -15,30 +15,38 @@ public class StressTester
     {
         label: while(true)
         {
-            Random random = new Random();
             int n = Math.abs((new Random()).nextInt()) % 10 + 2;
             System.out.println(n);
-            String[] patterns = new String[n];
             char[] alphabet = { 'A', 'C', 'G', 'T'};
-            for (int i = 0; i < patterns.length; i++)
-            {
-                String pattern = generateRandomString(alphabet, 4);
-                patterns[i] = pattern;
-                System.out.print(patterns[i] + " ");
-            }
+            
+            String pattern = generateRandomString(alphabet, 4);
+            String text = generateRandomString(alphabet, 6);
+            System.out.println("Pattern: " + pattern);
+            System.out.println("Text: " + text);
             System.out.println("");
-            ArrayBasedTrie t1 = new ArrayBasedTrie();
-            String[] res1 = t1.buildTrie(patterns);
-            Arrays.sort(res1);
-            HashTableTrie t2 = new HashTableTrie();
-            List<Map<Character, Integer>> edges = t2.buildTrie(patterns);
-            String[] res2 = t2.toArray(edges);
-            Arrays.sort(res2);
-            for (int i = 0; i < res1.length; i++)
+            
+            KnuthMorrisPratt kMP = new KnuthMorrisPratt();
+            List<Integer> res1 = kMP.findPattern(pattern, text);
+            Collections.sort(res1);
+            
+            SuffixArrayLong suffixArrayLong = new SuffixArrayLong();
+            int[] suffixArray = suffixArrayLong.computeSuffixArray(text+"$");
+            SuffixArrayMatching suffixArrayMatching = new SuffixArrayMatching();
+            List<Integer> res2 = suffixArrayMatching.
+                    findOccurrences(pattern, text+"$", suffixArray);
+            Collections.sort(res2);
+            for (int i = 0; i < res1.size(); i++)
             {
-                if (!res1[i].equals(res2[i]))
+                if ((res1.isEmpty() && !res2.isEmpty()) || 
+                    (res2.isEmpty() && !res1.isEmpty())) 
                 {
-                    System.out.println("Wrong answer: " + res1[i] + " " + res2[i]);
+                    System.out.println("Wrong answer: KMP size:= " + res1.size() 
+                            + ", SA size:= " + res2.size());
+                    break label;                    
+                }
+                if (!res1.get(i).equals(res2.get(i)))
+                {
+                    System.out.println("Wrong answer: " + res1.get(i) + " " + res2.get(i));
                     break label;
                 }
             }
