@@ -50,11 +50,8 @@ public class StressTester
                     break label;
                 }
             }
-            System.out.println("OK");
-            
-        }
-        
-        
+            System.out.println("OK");            
+        }       
     }
 
     private static String generateRandomString(char[] alphabet, int n) 
