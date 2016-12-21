@@ -63,6 +63,5 @@ public class StressTester
             pattern += symbol;
         }
         return pattern;
-    }
-    
+    }    
 }
