@@ -30,7 +30,7 @@ public class FlowGraphGenerator
             int from = Math.abs((new Random()).nextInt()) % (n - 1);
             int to = 1 + Math.abs((new Random()).nextInt()) % (n - 1);
             int capacity = minCapacity +
-                    Math.abs((new Random()).nextInt()) % maxCapacity;
+                    Math.abs((new Random()).nextInt()) % (maxCapacity + 1);
             Edge edge = new Edge(from, to, capacity);
             if ((from != to) && (!edges.contains(edge))) 
             {

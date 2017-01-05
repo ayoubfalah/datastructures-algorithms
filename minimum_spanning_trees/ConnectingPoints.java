@@ -75,7 +75,7 @@ public class ConnectingPoints
      *               for any i, j in {1, 2, ..., n}: i != j => P_i != P_j
      *               for any i, j, k in {1, 2, ..., n}: i != j and i != k and
      *               i != k => P_i, P_j and P_k are collinear
-     * @return 
+     * @return The minimum total length of segments
      */
     private static double minimumDistance(int[] x, int[] y) {
         double result = 0.;
