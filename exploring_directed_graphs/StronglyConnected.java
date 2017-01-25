@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class StronglyConnected 
@@ -41,11 +42,7 @@ public class StronglyConnected
     private static ArrayList<Integer>[] transpose(ArrayList<Integer>[] adj) 
     {
         ArrayList<Integer>[] adjTransposed = new ArrayList[adj.length];
-        for (int v = 0; v < adjTransposed.length; v++)
-        {
-            adjTransposed[v] = new ArrayList();
-        }
-        
+        Arrays.fill(adjTransposed, new ArrayList());        
         for (int v = 0; v < adj.length; v++)
         {
             ArrayList<Integer> neighbors = adj[v];
@@ -91,9 +88,7 @@ public class StronglyConnected
         int n = scanner.nextInt();
         int m = scanner.nextInt();
         ArrayList<Integer>[] adj = (ArrayList<Integer>[])new ArrayList[n];
-        for (int i = 0; i < n; i++) {
-            adj[i] = new ArrayList<Integer>();
-        }
+        Arrays.fill(adj, new ArrayList());
         for (int i = 0; i < m; i++) {
             int x, y;
             x = scanner.nextInt();

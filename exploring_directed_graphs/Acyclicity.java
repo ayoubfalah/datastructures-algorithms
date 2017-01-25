@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Acyclicity 
@@ -52,9 +53,7 @@ public class Acyclicity
         int n = scanner.nextInt();
         int m = scanner.nextInt();
         ArrayList<Integer>[] adj = (ArrayList<Integer>[])new ArrayList[n];
-        for (int i = 0; i < n; i++) {
-            adj[i] = new ArrayList();
-        }
+        Arrays.fill(adj, new ArrayList());
         for (int i = 0; i < m; i++) {
             int x, y;
             x = scanner.nextInt();
