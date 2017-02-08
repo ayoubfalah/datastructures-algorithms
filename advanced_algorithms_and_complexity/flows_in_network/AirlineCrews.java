@@ -34,7 +34,7 @@ public class AirlineCrews {
     private int[] findMatching(boolean[][] bipartiteGraph) {
         int m = bipartiteGraph.length; // The number of flights
         int n = bipartiteGraph[0].length; // The number of crews
-        // For any i in [0, m[: crews[i] is the crew number that is assigned to
+        // For any i in [0, m[: matching[i] is the crew number that is assigned to
         // the flight number i
         int[] matching = new int[m];
         // Initially, no crew is assigned to a flight
