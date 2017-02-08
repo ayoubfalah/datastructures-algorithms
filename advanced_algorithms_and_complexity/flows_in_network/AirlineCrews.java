@@ -38,14 +38,12 @@ public class AirlineCrews {
         // the flight number i
         int[] matching = new int[m];
         // Initially, no crew is assigned to a flight
-        Arrays.fill(matching, -1);
-        
+        Arrays.fill(matching, -1);        
         for (int crew = 0; crew < n; crew++)
         {
             boolean[] visited = new boolean[m];
             canMatch(crew, bipartiteGraph, visited, matching);         
-        }
-        
+        }        
         return matching;
     }
     
