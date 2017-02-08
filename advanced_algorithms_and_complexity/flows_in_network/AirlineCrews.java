@@ -12,6 +12,11 @@ public class AirlineCrews {
         new AirlineCrews().solve();
     }
 
+    /**
+     * Finding maximum matching in a bipartite graph to assign 
+     * airline crews to flights.
+     * @throws IOException 
+     */
     public void solve() throws IOException {
         in = new FastScanner();
         out = new PrintWriter(new BufferedOutputStream(System.out));
