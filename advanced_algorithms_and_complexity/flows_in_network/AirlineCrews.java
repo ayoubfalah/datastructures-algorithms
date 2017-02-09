@@ -56,8 +56,8 @@ public class AirlineCrews {
     private boolean canMatch(int crew, boolean[][] bipartiteGraph, 
             boolean[] visited, int[] matching) 
     {
-        int m = matching.length;
         boolean isMatched = false;
+        int m = matching.length;
         for (int flight = 0; flight < m; flight++) 
         {
             boolean flightIsAdjToCrew = bipartiteGraph[flight][crew];
