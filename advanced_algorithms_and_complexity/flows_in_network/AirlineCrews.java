@@ -46,6 +46,7 @@ public class AirlineCrews {
         Arrays.fill(matching, -1);        
         for (int crew = 0; crew < n; crew++)
         {
+            // Mark each flight as not visited
             boolean[] visited = new boolean[m];
             canMatch(crew, bipartiteGraph, visited, matching);         
         }        
