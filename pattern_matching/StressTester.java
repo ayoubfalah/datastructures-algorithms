@@ -15,7 +15,6 @@ public class StressTester
     {
         label: while(true)
         {
-            Random random = new Random();
             int n = Math.abs((new Random()).nextInt()) % 10 + 2;
             System.out.println(n);
             String[] patterns = new String[n];
