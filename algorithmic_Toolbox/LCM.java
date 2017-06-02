@@ -10,7 +10,7 @@ public class LCM {
    */
   private static long lcm(int a, int b)
   {
-      return ((long)a / gcd(a, b)) * b;
+      return ((long)a * b)/ gcd(a, b);
   }
   
   /**

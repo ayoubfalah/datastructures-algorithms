@@ -23,7 +23,10 @@ class Position {
     int row;
 }
 
-class EnergyValues {
+class EnergyValues 
+{
+    public static final boolean SOLVABLE = false;
+    
     static Equation ReadEquation() throws IOException {
         Scanner scanner = new Scanner(System.in);
         int size = scanner.nextInt();
@@ -129,7 +132,7 @@ class EnergyValues {
         used_columns[pivot_element.column] = true;
     }
 
-    static double[] solveEquation(Equation equation) {
+    static boolean solveEquation(Equation equation) {
         double a[][] = equation.a;
         double b[] = equation.b;
         int size = a.length;
@@ -141,8 +144,14 @@ class EnergyValues {
             processPivotElement(a, b, pivot_element);
             markPivotElementUsed(pivot_element, used_rows, used_columns);
         }
-
-        return b;
+        if (Double.valueOf(b[0]).isInfinite() || Double.valueOf(b[0]).isNaN())
+            return SOLVABLE;
+        return !SOLVABLE;
+//        if (Double.valueOf(b[0]).isNaN())
+//            return 1;
+//        if (Double.valueOf(b[0]).isInfinite())
+//            return -1;
+//        return 0;
     }
 
     static void PrintColumn(double column[]) {
@@ -153,7 +162,20 @@ class EnergyValues {
 
     public static void main(String[] args) throws IOException {
         Equation ls = ReadEquation();
-        double[] solution = solveEquation(ls);
-        PrintColumn(solution);
+        //double[] solution = solveEquation(ls);
+//        PrintColumn(solution);
+//        int status = solveEquation(ls);
+//        switch (status) {
+//            case 1:
+//                System.out.println("Infinity");
+//                break;
+//            case -1:
+//                System.out.println("No solution");
+//                break;
+//            default:
+//                PrintColumn(ls.b);
+//                break;
+//        }
+;
     }
 }
