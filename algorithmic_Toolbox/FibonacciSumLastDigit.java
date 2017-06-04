@@ -28,7 +28,7 @@ public class FibonacciSumLastDigit {
         int periodLength = 60;
         int k = (int)(n % periodLength);
         
-        long f = lastDigitOfFib(k);
+        int f = lastDigitOfFib(k);
         
         if (f <= 0) return (f - 1) + 10;
         return f - 1;
