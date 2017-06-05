@@ -30,8 +30,9 @@ public class FibonacciSumLastDigit {
         
         int f = lastDigitOfFib(k);
         
-        if (f <= 0) return (f - 1) + 10;
-        return f - 1;
+        f = f - 1;
+        if (f < 0) return  f + 10;
+        return f;
     }
     
     private static int lastDigitOfFib(int n) 
