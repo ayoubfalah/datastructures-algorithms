@@ -17,20 +17,21 @@ public class FibonacciLastDigit {
         return current % 10;
     }
     
+    /**
+     * 
+     * @param n a natural number
+     * @preconstraint 0 <= n <= 10^7
+     * @return the last digit of the n-th Fibonacci number
+     */
     private static int getFibonacciLastDigit(int n)
     {
-        int k = n % 60;
+        // The sequence (f(n) mod 10) is periodic and the period length is 60
+        int periodLength = 60;
+        int k = n % periodLength;
         int lastDigit = lastDigitOfFib(k);
         return lastDigit;
     }
     
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int c = getFibonacciLastDigit(n);
-        System.out.println(c);
-    }
-
     private static int lastDigitOfFib(int n) 
     {
         if (n <= 1) return n;
@@ -46,6 +47,13 @@ public class FibonacciLastDigit {
             last = current;
         }
         return current;
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int c = getFibonacciLastDigit(n);
+        System.out.println(c);
     }
 }
 
