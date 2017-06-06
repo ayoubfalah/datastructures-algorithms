@@ -34,11 +34,11 @@ public class Fibonacci {
     if (n <= 1) return n;
     long current = 1;
     long last = 1;
-    long temp = 0;
+    long penultimate = 0;
     for (int i = 2; i <= n; i++) 
     {
-        current = last + temp;
-        temp = last;
+        current = last + penultimate;
+        penultimate = last;
         last = current;
     }
     return current;      
