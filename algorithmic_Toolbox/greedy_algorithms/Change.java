@@ -13,7 +13,7 @@ public class Change {
      */
     private static List<Integer> change(final int amount) {
 
-        // The coins sorted in descending order.
+        // The coins are sorted in descending order.
         final int[] COINS = {10, 5, 1};
 
         ArrayList<Integer> change = new ArrayList();
