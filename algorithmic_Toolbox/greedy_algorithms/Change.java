@@ -3,6 +3,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Change {
+    
+    // The coins are sorted in descending order.
+    private static final int[] COINS = {10, 5, 1};
 
     /**
      *
@@ -13,21 +16,12 @@ public class Change {
      */
     private static List<Integer> change(final int amount) {
 
-        // The coins are sorted in descending order.
-        final int[] COINS = {10, 5, 1};
-
         ArrayList<Integer> change = new ArrayList();
         int changeSum = 0;
 
         while (changeSum < amount) {
-            int initialCoinIndex = -1;
-            int coinIndex = initialCoinIndex;
-            for (int i = 0; i < COINS.length; i++) {
-                if (changeSum + COINS[i] <= amount) {
-                    coinIndex = i;
-                    break;
-                }
-            }
+            
+            int coinIndex = findLargestCoinIndex(changeSum, amount);
 
             boolean amountIsUnchangeable = (coinIndex == -1);
             if (amountIsUnchangeable) {
@@ -38,6 +32,27 @@ public class Change {
             }
         }
         return change;
+    }
+
+    /**
+     *
+     * @param changeSum a natural number
+     * @param amount a natural number
+     * @preconstraint 0 <= changeSum <= amount
+     * @preconstraint 1 <= amount < 10^3
+     * @return The index of largest coin in COINS
+     * @postconstraint changeSum + COINS[index] <= amount
+     */
+    private static int findLargestCoinIndex(int changeSum, final int amount) {
+        int initialCoinIndex = -1;
+        int coinIndex = initialCoinIndex;
+        for (int i = 0; i < COINS.length; i++) {
+            if (changeSum + COINS[i] <= amount) {
+                coinIndex = i;
+                break;
+            }
+        }
+        return coinIndex;
     }
 
     public static void main(String[] args) {
