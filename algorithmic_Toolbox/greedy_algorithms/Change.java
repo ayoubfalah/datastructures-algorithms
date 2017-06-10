@@ -40,7 +40,7 @@ public class Change {
      * @param amount a natural number
      * @preconstraint 0 <= changeSum <= amount
      * @preconstraint 1 <= amount < 10^3
-     * @return The index of largest coin in COINS
+     * @return The index of largest coin in COINS if there is any, otherwise -1
      * @postconstraint changeSum + COINS[index] <= amount
      */
     private static int findLargestCoinIndex(int changeSum, final int amount) {
