@@ -13,17 +13,14 @@ public class DifferentSummands {
     {
         List<Integer> summands = new ArrayList();
         int n = 1;
-        while (true)
+        while (m > 2 * n)
         {
-            if (m <= 2 * n) {
-                summands.add(m);
-                break;
-            } else {
-                summands.add(n);
-                m = m - n;
-                n++;
-            }
+            summands.add(n);
+            m = m - n;
+            n++;
         }
+        summands.add(m);
+        
         return summands;
     }
 
