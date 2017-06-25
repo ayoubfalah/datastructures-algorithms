@@ -34,6 +34,26 @@ public class MajorityElement
     
     /**
      * 
+     * @param a a sequence of natural numbers
+     * @preconstraint 1 <= a.length <= 10^5
+     * @preconstraint for any i in {0, 1, ..., (10^5 - 1)}: 0 <= a[i] <= 10^9
+     * @param keyIndex an index of an element in a.
+     * @return the number of occurences of a[keyIndex] in the sequence a
+     */
+    private static int countOccurrences(int[] a, int keyIndex)
+    {
+        int itemToCount = a[keyIndex];
+        int count = 1;
+        int i = keyIndex + 1;
+        while ((i < a.length) && (a[i] == itemToCount)) {            
+            count++;
+            i++;
+        }        
+        return count;
+    }
+    
+    /**
+     * 
      * @param sequence a sequence of natural numbers
      * @preconstraint 1 <= a.length <= 10^5
      * @preconstraint for any i in {0, 1, ..., (10^5 - 1)}: 0 <= a[i] <= 10^9
@@ -58,26 +78,6 @@ public class MajorityElement
         
         return (maxOccurrence > n/2)? 
                 HAS_MAJORITY_ELEMENT : HASNOT_MAJORITY_ELEMENT;
-    }
-    
-    /**
-     * 
-     * @param a a sequence of natural numbers
-     * @preconstraint 1 <= a.length <= 10^5
-     * @preconstraint for any i in {0, 1, ..., (10^5 - 1)}: 0 <= a[i] <= 10^9
-     * @param keyIndex an index of an element in a.
-     * @return the number of occurences of a[keyIndex] in the sequence a
-     */
-    private static int countOccurrences(int[] a, int keyIndex)
-    {
-        int itemToCount = a[keyIndex];
-        int count = 1;
-        int i = keyIndex + 1;
-        while ((i < a.length) && (a[i] == itemToCount)) {            
-            count++;
-            i++;
-        }        
-        return count;
     }
 
     public static void main(String[] args) {
