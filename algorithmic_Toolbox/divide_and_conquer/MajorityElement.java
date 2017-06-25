@@ -1,31 +1,63 @@
+package algorithmic_Toolbox.divide_and_conquer;
+
 import java.util.*;
 import java.io.*;
 
-public class MajorityElement {
+public class MajorityElement 
+{
+    private static final int HASNOT_MAJORITY_ELEMENT = 0;
+    private static final int HAS_MAJORITY_ELEMENT = 1;
     
     /**
      * 
-     * @param a a sequence of natural numbers
+     * @param sequence a sequence of natural numbers
      * @preconstraint 1 <= a.length <= 10^5
      * @preconstraint for any i in {0, 1, ..., (10^5 - 1)}: 0 <= a[i] <= 10^9
      * @return 1 if the sequence a contains an element that appears strictly more
      *           that n/2 times, and 0 otherwise.
      */
-    public static int hasMajorityElement(int[] a)
+    public static int hasMajorityElement(int[] sequence)
     {
-        Arrays.sort(a);
+        Arrays.sort(sequence);
         int index = 0;
-        int n = a.length;
+        int n = sequence.length;
         
         while(index < (n-1))
         {
-            int count = countOccurrences(a, index);
+            int count = countOccurrences(sequence, index);
             if (count > n/2)
-            {
-                return 1;                
-            }else index += count;
+                return HAS_MAJORITY_ELEMENT;
+            else index += count;
         }
-        return 0;
+        return HASNOT_MAJORITY_ELEMENT;
+    }
+    
+    /**
+     * 
+     * @param sequence a sequence of natural numbers
+     * @preconstraint 1 <= a.length <= 10^5
+     * @preconstraint for any i in {0, 1, ..., (10^5 - 1)}: 0 <= a[i] <= 10^9
+     * @return 1 if the sequence a contains an element that appears strictly more
+     *           that n/2 times, and 0 otherwise.
+     */
+    public static int hasMajorityElementFaster(int[] sequence)
+    {
+        int n = sequence.length;
+        if (n == 1) return HASNOT_MAJORITY_ELEMENT;
+        Map<Integer, Integer> itemOccurrences = new HashMap();
+        // Setting the occurrences to 0s
+        for (int item : sequence) itemOccurrences.put(item, 0);
+        
+        for (int item : sequence) 
+        {
+            Integer occurrence = itemOccurrences.get(item);
+            itemOccurrences.put(item, ++occurrence);            
+        }        
+        Collection<Integer> occurrences = itemOccurrences.values();
+        Integer maxOccurrence = Collections.max(occurrences);
+        
+        return (maxOccurrence > n/2)? 
+                HAS_MAJORITY_ELEMENT : HASNOT_MAJORITY_ELEMENT;
     }
     
     /**
@@ -55,7 +87,7 @@ public class MajorityElement {
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        System.out.println(hasMajorityElement(a));
+        System.out.println(hasMajorityElementFaster(a));
     }
 
     static class FastScanner {
