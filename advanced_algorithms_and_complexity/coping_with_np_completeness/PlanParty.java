@@ -44,16 +44,28 @@ class PlanParty {
         return tree;
     }
 
-    static void dfs(Vertex[] tree, int vertex, int parent) {
-        for (int child : tree[vertex].children) {
-            if (child != parent) {
-                dfs(tree, child, vertex);
-            }
+    static void dfs(Vertex[] tree, int vertex, int parent, int[] mIn, int[] mOut)
+    {
+        List<Integer> children = tree[vertex].children;
+        for (int child : children) {
+            if (child != parent)
+                dfs(tree, child, vertex, mIn, mOut);
         }
-
-        // This is a template function for processing a tree using depth-first search.
-        // Write your code here.
-        // You may need to add more parameters to this function for child processing.
+        int weight = tree[vertex].weight;
+        boolean isALeaf = children.isEmpty();
+        if (isALeaf) 
+        {
+            mIn[vertex] = weight;
+            mOut[vertex] = 0;            
+        }else
+        {
+            mIn[vertex] = weight;
+            for (int child : children)
+            {
+                mIn[vertex] += mOut[child];
+                mOut[vertex] += Math.max(mIn[child], mOut[child]);                
+            }            
+        }
     }
 
     static int MaxWeightIndependentTreeSubset(Vertex[] tree) {
@@ -61,9 +73,11 @@ class PlanParty {
         if (size == 0) {
             return 0;
         }
-        dfs(tree, 0, -1);
-        // You must decide what to return.
-        return 0;
+        int root = 0;
+        int[] mIn = new int[size];
+        int[] mOut = new int[size];
+        dfs(tree, root, -1, mIn, mOut);
+        return Math.max(mIn[root], mOut[root]);
     }
 
     public static void main(String[] args) throws IOException {
