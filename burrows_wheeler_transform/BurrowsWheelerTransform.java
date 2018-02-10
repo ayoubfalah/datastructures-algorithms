@@ -33,14 +33,13 @@ public class BurrowsWheelerTransform {
      */
     String BWT(String text) 
     {
-        StringBuilder result = new StringBuilder();
-
-        String[] bwm = computeBwm(text);
-        
         int n = text.length();
-        for (int i = 0; i < n; i++)
+        String[] bwm = computeBwm(text);
+        StringBuilder result = new StringBuilder();
+        
+        for (String cyclicRotation : bwm)
         {
-            result.append(bwm[i].charAt(n - 1));
+            result.append(cyclicRotation.charAt(n - 1));
         }
         
         return result.toString();
@@ -69,7 +68,7 @@ public class BurrowsWheelerTransform {
     /**
      * 
      * @param text a String
-     * @return The Burrows Wheeler Matrix of text
+     * @return The Burrows-Wheeler Matrix of text
      */
     private String[] computeBwm(String text)
     {
