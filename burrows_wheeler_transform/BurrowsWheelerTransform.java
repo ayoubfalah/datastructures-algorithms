@@ -35,15 +35,12 @@ public class BurrowsWheelerTransform {
     {
         StringBuilder result = new StringBuilder();
 
-        String[] cyclicRotations = listAllCyclicRotations(text);
-        
-        // Sorting the cyclic rotations of text in ascending order
-        Arrays.sort(cyclicRotations);
+        String[] bwm = computeBwm(text);
         
         int n = text.length();
         for (int i = 0; i < n; i++)
         {
-            result.append(cyclicRotations[i].charAt(n - 1));
+            result.append(bwm[i].charAt(n - 1));
         }
         
         return result.toString();
@@ -66,6 +63,18 @@ public class BurrowsWheelerTransform {
                     + cyclicRotations[i-1].substring(0, n - 1);          
         }
         
+        return cyclicRotations;
+    }
+    
+    /**
+     * 
+     * @param text a String
+     * @return The Burrows Wheeler Matrix of text
+     */
+    private String[] computeBwm(String text)
+    {
+        String[] cyclicRotations = listAllCyclicRotations(text);
+        Arrays.sort(cyclicRotations);
         return cyclicRotations;
     }
 
