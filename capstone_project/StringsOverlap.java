@@ -10,7 +10,9 @@ public class StringsOverlap
     {
         String a = "TTACGT";
         String b = "CGTACCGT";
-        System.out.println(computeLengthOfMaxOverlap(a, b));
+        int maxOverlapLength = computeLengthOfMaxOverlap(a, b);
+        int threshold = 3;
+        System.out.println(effectiveOverlapLength(maxOverlapLength, threshold));
     }
     
     /**
@@ -32,6 +34,19 @@ public class StringsOverlap
             }            
         }
         return result;
+    }
+    
+    /**
+     * 
+     * @param lengthOfMaxOverlap a naural number that represents the length of
+     *                           the maximum overlap of two strings.
+     * @param threshold a natural number that will be used as a threshold value
+     * @return lengthOfMaxOverlap if (lengthOfMaxOverlap >= threshold)
+     *          and zero otherwise.
+     */
+    private static int effectiveOverlapLength(int lengthOfMaxOverlap, int threshold)
+    {
+        return lengthOfMaxOverlap >= threshold? lengthOfMaxOverlap : 0;
     }
 
 }
