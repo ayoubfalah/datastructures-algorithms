@@ -3,30 +3,7 @@ package capstone_project;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-class Pair {
-
-    private final String a;
-    private final String b;
-
-    public Pair(String a, String b) {
-        this.a = a;
-        this.b = b;
-    }
-
-    public String getA() {
-        return a;
-    }
-
-    public String getB() {
-        return b;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + a + ", " + b + ")";
-    }
-}
+import utility.classes.Pair;
 
 /**
  *
