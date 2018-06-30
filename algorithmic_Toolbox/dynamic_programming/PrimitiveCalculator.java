@@ -2,7 +2,6 @@ import java.util.*;
 
 public class PrimitiveCalculator {
     /**
-     * 
      * @param n a natural number
      * @precondition 1 <= n <= 10^6
      * @return Let x be a natural number, given a primitive calculator that can 
@@ -27,6 +26,35 @@ public class PrimitiveCalculator {
         }
         Collections.reverse(sequence);
         return sequence;
+    }
+    
+    /**
+     * @param n a natural number
+     * @precondition 1 <= n <= 10^6
+     * @return Let x be a natural number, given a primitive calculator that can 
+     *         perform the following three operations:
+     *         * multiply x by 3
+     *         * multiply x by 2
+     *         * add 1 to x
+     *         the following subroutine computes the minimum number of operations
+     *         needed to obtain n starting from 1.
+     */
+    private static int[] operationsMinNumber(int n)
+    {
+        int[] operationsMinNumber = new int[n+1];
+        
+        for (int i = 2; i <= n; i++)
+        {
+            operationsMinNumber[i] = operationsMinNumber[i-1] + 1;
+            for (int d = 2; d <= 3; d++)
+            {
+                if ((i % d == 0) && (operationsMinNumber[i/d] + 1 < operationsMinNumber[i]))
+                {
+                    operationsMinNumber[i] = operationsMinNumber[i/d] + 1;                    
+                }
+            }            
+        }
+        return operationsMinNumber;        
     }
 
     public static void main(String[] args) {
